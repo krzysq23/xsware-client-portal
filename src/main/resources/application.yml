@@ -6,3 +6,12 @@ spring:
     name: xsware-client-portal
   profiles:
     active: dev
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
