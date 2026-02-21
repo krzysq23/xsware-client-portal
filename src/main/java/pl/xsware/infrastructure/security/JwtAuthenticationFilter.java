@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import pl.xsware.infrastructure.common.SecurityConstants;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,12 +26,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         var header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null || !header.startsWith(SecurityConstants.BEARER_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        var token = header.substring("Bearer ".length()).trim();
+        var token = header.substring(SecurityConstants.BEARER_PREFIX.length()).trim();
         try {
             Claims claims = jwtService.parse(token);
             String userId = claims.getSubject();

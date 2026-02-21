@@ -1,6 +1,7 @@
 package pl.xsware.application.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +33,7 @@ public class AuthService {
     private final Clock clock;
 
     @Transactional
-    public AuthResponse register(RegisterRequest req) {
+    public TokenPair register(RegisterRequest req) {
         var email = req.email().toLowerCase();
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already in use");
@@ -46,7 +47,7 @@ public class AuthService {
     }
 
     @Transactional
-    public AuthResponse login(LoginRequest req) {
+    public TokenPair login(LoginRequest req) {
         var email = req.email().toLowerCase();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
@@ -60,9 +61,14 @@ public class AuthService {
     }
 
     @Transactional
-    public AuthResponse refresh(RefreshRequest req) {
+    public TokenPair refresh(String refreshToken) {
+
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw new InsufficientAuthenticationException("Missing refresh token");
+        }
+
         Instant now = Instant.now(clock);
-        RefreshToken rt = refreshTokenRepository.findByToken(req.refreshToken())
+        RefreshToken rt = refreshTokenRepository.findByToken(refreshToken)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token"));
 
         if (!rt.isActive(now)) {
@@ -83,7 +89,18 @@ public class AuthService {
                 .createdAt(now)
                 .build());
 
-        return new AuthResponse(access, newRefresh);
+        return new TokenPair(access, newRefresh);
+    }
+
+    @Transactional
+    public void logout(String refreshToken) {
+        if (refreshToken == null || refreshToken.isBlank()) return;
+
+        refreshTokenRepository.findByToken(refreshToken)
+                .ifPresent(rt -> {
+                    rt.revoke();
+                    refreshTokenRepository.save(rt);
+                });
     }
 
     @Transactional(readOnly = true)
@@ -93,7 +110,7 @@ public class AuthService {
         return new InfoResponse(auth.getName(), role);
     }
 
-    private AuthResponse issueTokens(User user, Instant now) {
+    private TokenPair issueTokens(User user, Instant now) {
         var access = jwtService.createAccessToken(user.getId(), user.getEmail(), user.getRole(), now);
         var refresh = createRefreshTokenValue();
 
@@ -105,7 +122,7 @@ public class AuthService {
                 .createdAt(now)
                 .build());
 
-        return new AuthResponse(access, refresh);
+        return new TokenPair(access, refresh);
     }
 
     private String createRefreshTokenValue() {
