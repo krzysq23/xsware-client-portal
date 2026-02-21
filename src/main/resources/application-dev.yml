@@ -40,3 +40,30 @@ spring:
     enabled: true
     clean-disabled: true
     locations: classpath:db/migration
+
+
+app:
+  # JWT auth
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      issuer: ${JWT_ISSUER}
+      access-token-ttl: ${JWT_ACCESS_EXP_MS:PT15M}
+      refresh-token-ttl: ${JWT_REFRESH_EXP_MS:P14D}
+      cookie:
+        secure: true
+        path: /auth
+        sameSite: None
+  # CORS
+  web:
+    cors:
+      origins:
+        - "http://localhost:4200"
+        - "https://xsware.pl"
+      headers:
+        - "Content-Type"
+        - "Content-Disposition"
+        - "Content-Length"
+        - "X-Requested-With"
+        - "Authorization"
+      max-age: 3600
