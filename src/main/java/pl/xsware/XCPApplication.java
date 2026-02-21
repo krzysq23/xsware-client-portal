@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class XswareClientPortalApplication {
+public class XCPApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(XswareClientPortalApplication.class, args);
+		SpringApplication.run(XCPApplication.class, args);
 	}
 
 }
