@@ -41,6 +41,22 @@ spring:
     clean-disabled: true
     locations: classpath:db/migration
 
+# Metrics
+management:
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+    export:
+      otlp:
+        enabled: false
+  otlp:
+    metrics:
+      export:
+        enabled: false
 
 app:
   # JWT auth

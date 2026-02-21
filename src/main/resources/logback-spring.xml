@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <springProperty scope="context" name="ENV" source="spring.profiles.active" defaultValue="dev"/>
-
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-    </root>
-
-    <!-- ===== Project ===== -->
-    <logger name="pl.xsware" level="DEBUG"/>
-
-    <!-- ===== Framework ===== -->
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="org.hibernate" level="WARN"/>
-
-    <!-- ===== DEV overrides ===== -->
     <springProfile name="dev">
-        <logger name="pl.xsware" level="DEBUG"/>
-        <logger name="org.hibernate.SQL" level="INFO"/>
-        <logger name="org.hibernate.orm.jdbc.bind" level="INFO"/>
+        <include resource="logback-spring-dev.xml"/>
+    </springProfile>
+
+    <springProfile name="prod">
+        <include resource="logback-spring-prod.xml"/>
+    </springProfile>
+
+    <springProfile name="default">
+        <include resource="logback-spring-dev.xml"/>
     </springProfile>
 
 </configuration>

@@ -16,6 +16,10 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+  metrics:
+    tags:
+      application: ${spring.application.name:xsware-client-portal}
+
 
 # Swagger
 springdoc:
@@ -25,15 +29,3 @@ springdoc:
     path: /swagger-ui
     operationsSorter: method
     tagsSorter: alpha
-
-
-# Logging
-logging:
-  level:
-    org.springframework: INFO
-    org.springframework.security: INFO
-    org.springframework.security.core: INFO
-    org.springframework.security.authentication: INFO
-    reactor.netty.http.client: WARN
-    org.springframework.web.reactive.function.client.ExchangeFunctions: WARN
-    org.springframework.web.reactive.function.client.WebClient: WARN

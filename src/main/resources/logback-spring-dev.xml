@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+    <springProperty scope="context" name="APP_NAME"
+                    source="spring.application.name"
+                    defaultValue="xsware-client-portal"/>
+
+    <appender name="CONSOLE_DEV" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%thread] [%magenta(%X{traceId})] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_DEV"/>
+    </root>
+
+    <logger name="pl.xsware" level="DEBUG"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate" level="WARN"/>
+
+</included>
