@@ -24,6 +24,10 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	jsonwebtokenVersion = '0.13.0'
+}
+
 dependencies {
 
 	// Spring Boot + Security + JPA + Flyway
@@ -43,6 +47,11 @@ dependencies {
 	// postgresql
 	implementation 'org.flywaydb:flyway-database-postgresql'
 	runtimeOnly 'org.postgresql:postgresql'
+
+	// JWT Library
+	implementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
+	implementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"
+	implementation "io.jsonwebtoken:jjwt-jackson:$jsonwebtokenVersion"
 
 	// Tests
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
