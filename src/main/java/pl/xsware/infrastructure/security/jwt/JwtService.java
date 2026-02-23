@@ -1,4 +1,4 @@
-package pl.xsware.infrastructure.security;
+package pl.xsware.infrastructure.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

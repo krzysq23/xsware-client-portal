@@ -29,3 +29,14 @@ springdoc:
     path: /swagger-ui
     operationsSorter: method
     tagsSorter: alpha
+
+# Custom config
+app:
+  storage:
+    provider: local
+    avatar:
+      max-bytes: 1000000
+      allowed-content-types:
+        - image/png
+        - image/jpeg
+        - image/webp

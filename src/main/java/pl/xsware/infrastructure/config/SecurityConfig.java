@@ -12,9 +12,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.xsware.infrastructure.security.JwtAuthenticationFilter;
-import pl.xsware.infrastructure.security.JwtProperties;
-import pl.xsware.infrastructure.security.JwtService;
+import pl.xsware.infrastructure.security.jwt.JwtAuthenticationFilter;
+import pl.xsware.infrastructure.security.jwt.JwtProperties;
+import pl.xsware.infrastructure.security.jwt.JwtService;
 
 @Configuration
 @EnableWebSecurity

@@ -1,9 +1,10 @@
-package pl.xsware.infrastructure.security;
+package pl.xsware.infrastructure.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import pl.xsware.infrastructure.common.SecurityConstants;
+import pl.xsware.infrastructure.security.jwt.JwtProperties;
 
 import java.time.Duration;
 

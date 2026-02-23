@@ -1,4 +1,4 @@
-package pl.xsware.infrastructure.security;
+package pl.xsware.infrastructure.security.cors;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -4,13 +4,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.xsware.application.auth.AuthService;
-import pl.xsware.infrastructure.security.RefreshTokenCookie;
 import pl.xsware.infrastructure.common.SecurityConstants;
-import pl.xsware.infrastructure.web.dto.auth.*;
+import pl.xsware.infrastructure.security.auth.RefreshTokenCookie;
+import pl.xsware.infrastructure.web.dto.auth.AuthResponse;
+import pl.xsware.infrastructure.web.dto.auth.InfoResponse;
+import pl.xsware.infrastructure.web.dto.auth.LoginRequest;
+import pl.xsware.infrastructure.web.dto.auth.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")

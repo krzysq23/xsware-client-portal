@@ -12,8 +12,8 @@ import pl.xsware.infrastructure.persistence.auth.RefreshToken;
 import pl.xsware.infrastructure.persistence.auth.RefreshTokenRepository;
 import pl.xsware.infrastructure.persistence.user.User;
 import pl.xsware.infrastructure.persistence.user.UserRepository;
-import pl.xsware.infrastructure.security.JwtProperties;
-import pl.xsware.infrastructure.security.JwtService;
+import pl.xsware.infrastructure.security.jwt.JwtProperties;
+import pl.xsware.infrastructure.security.jwt.JwtService;
 import pl.xsware.infrastructure.web.dto.auth.*;
 
 import java.security.SecureRandom;

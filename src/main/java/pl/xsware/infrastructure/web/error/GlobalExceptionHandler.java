@@ -1,6 +1,7 @@
 package pl.xsware.infrastructure.web.error;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -70,6 +71,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handleGlobal(Exception ex) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
+    }
+
+    // 409 - OptimisticLockException
+    @ExceptionHandler(OptimisticLockException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleOptimistic(jakarta.persistence.OptimisticLockException ex) {
+        return new ApiError("CONFLICT", "Resource was modified by another request", Instant.now(clock));
     }
 
     private ApiError build(HttpStatus status, String message) {

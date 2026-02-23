@@ -28,6 +28,7 @@ ext {
 	jsonwebtokenVersion = '0.13.0'
 	swaggerVersion = '3.0.1'
 	logstashVersion = '9.0'
+	awssdkVersion = '2.41.34'
 }
 
 dependencies {
@@ -60,6 +61,10 @@ dependencies {
 	implementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
 	implementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"
 	implementation "io.jsonwebtoken:jjwt-jackson:$jsonwebtokenVersion"
+
+	// AWS SDK v2
+	implementation platform("software.amazon.awssdk:bom:$awssdkVersion")
+	implementation "software.amazon.awssdk:s3"
 
 	// Swagger
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$swaggerVersion"

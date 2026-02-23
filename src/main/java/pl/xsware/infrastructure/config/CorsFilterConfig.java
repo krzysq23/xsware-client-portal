@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import pl.xsware.infrastructure.security.CorsProperties;
+import pl.xsware.infrastructure.security.cors.CorsProperties;
 
 import java.util.List;
 
