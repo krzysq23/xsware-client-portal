@@ -34,7 +34,7 @@ public class UserInfoService {
                     user.getEmail(),
                     "ROLE_" + user.getRole().name(),
                     null, null, null,
-                    null,
+                    false,
                     null
             );
         }
@@ -45,7 +45,7 @@ public class UserInfoService {
                 info.getFirstName(),
                 info.getLastName(),
                 info.getPhone(),
-                info.getAvatarPath(),
+                info.hasAvatar(),
                 info.getVersion()
         );
     }
@@ -70,7 +70,7 @@ public class UserInfoService {
                 info.getFirstName(),
                 info.getLastName(),
                 info.getPhone(),
-                info.getAvatarPath(),
+                info.hasAvatar(),
                 info.getVersion()
         );
     }

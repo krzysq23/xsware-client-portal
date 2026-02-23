@@ -6,6 +6,6 @@ public record UserInfoResponse(
         String firstName,
         String lastName,
         String phone,
-        String avatarPath,
+        boolean isAvatar,
         Long version
 ) {}

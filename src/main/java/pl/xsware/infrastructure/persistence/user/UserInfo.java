@@ -53,4 +53,8 @@ public class UserInfo extends AuditedEntity {
         this.avatarPath = null;
         this.avatarContentType = null;
     }
+
+    public boolean hasAvatar() {
+        return this.avatarPath != null;
+    }
 }

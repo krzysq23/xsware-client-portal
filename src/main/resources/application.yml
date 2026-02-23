@@ -6,6 +6,11 @@ spring:
     name: xsware-client-portal
   profiles:
     active: dev
+  # upload size
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
 
 # Metrics
 management:
@@ -35,7 +40,7 @@ app:
   storage:
     provider: local
     avatar:
-      max-bytes: 1000000
+      max-bytes: 2000000
       allowed-content-types:
         - image/png
         - image/jpeg
