@@ -1,4 +1,4 @@
-FROM gradle:8.7-jdk21 AS build
+FROM gradle:9.2.1-jdk21 AS build
 WORKDIR /home/gradle/project
 
 COPY --chown=gradle:gradle build.gradle* settings.gradle* gradle.properties* ./
