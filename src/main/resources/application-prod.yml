@@ -86,9 +86,8 @@ app:
       max-age: 3600
   # Storage
   storage:
-    storage:
-      provider: s3
-      s3:
-        bucket: xsware-avatars-prod
-        prefix: avatars/
-        region: eu-central-1
+    provider: s3
+    s3:
+      bucket: xsware-avatars-prod
+      prefix: avatars/
+      region: eu-central-1
