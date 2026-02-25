@@ -1,0 +1,40 @@
+name: Build and push to ECR
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::998821595281:role/GithubActionsEcrPushRole
+          aws-region: eu-central-1
+      # :contentReference[oaicite:4]{index=4}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        # :contentReference[oaicite:5]{index=5}
+
+      - name: Build, tag and push image
+        env:
+          ECR_REGISTRY: 998821595281.dkr.ecr.eu-central-1.amazonaws.com
+          ECR_REPOSITORY: xsware-client-portal
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
