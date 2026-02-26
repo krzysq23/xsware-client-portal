@@ -2,6 +2,7 @@ package pl.xsware.infrastructure.persistence.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.jspecify.annotations.Nullable;
 import pl.xsware.domain.user.Role;
 
 import java.time.Instant;
@@ -41,5 +42,9 @@ public class User {
                 .enabled(true)
                 .createdAt(now)
                 .build();
+    }
+
+    public void setPassword(@Nullable String encode) {
+        this.passwordHash = encode;
     }
 }

@@ -1,6 +1,8 @@
 package pl.xsware.application.auth;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +14,7 @@ import pl.xsware.infrastructure.persistence.auth.RefreshToken;
 import pl.xsware.infrastructure.persistence.auth.RefreshTokenRepository;
 import pl.xsware.infrastructure.persistence.user.User;
 import pl.xsware.infrastructure.persistence.user.UserRepository;
+import pl.xsware.infrastructure.security.auth.AuthUtils;
 import pl.xsware.infrastructure.security.jwt.JwtProperties;
 import pl.xsware.infrastructure.security.jwt.JwtService;
 import pl.xsware.infrastructure.web.dto.auth.*;
@@ -21,6 +24,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -103,6 +107,28 @@ public class AuthService {
                 });
     }
 
+    @Transactional
+    public void changePassword(ChangePasswordRequest request, Long userId) {
+
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (!currentUser.isEnabled() || !passwordEncoder.matches(request.currentPassword(), currentUser.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid credentials");
+        }
+
+        currentUser.setPassword(passwordEncoder.encode(request.newPassword()));
+
+        userRepository.save(currentUser);
+
+        refreshTokenRepository.revokeAllActiveByUserId(currentUser.getId());
+
+        int revokedCount = refreshTokenRepository
+                .revokeAllActiveByUserId(currentUser.getId());
+
+        log.info("Revoked {} refresh tokens for user {}", revokedCount, currentUser.getEmail());
+    }
+
     @Transactional(readOnly = true)
     public InfoResponse info(Authentication auth) {
         if (auth == null) throw new IllegalArgumentException("Not authenticated");
@@ -130,4 +156,5 @@ public class AuthService {
         new SecureRandom().nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
+
 }

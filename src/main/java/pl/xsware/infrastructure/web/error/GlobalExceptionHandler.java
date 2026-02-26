@@ -10,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -59,6 +60,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFound(EntityNotFoundException ex) {
+        return build(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiError handleNoResourceFoundException(NoResourceFoundException ex) {
         return build(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
     }
 

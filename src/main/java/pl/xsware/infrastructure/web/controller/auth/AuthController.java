@@ -8,11 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.xsware.application.auth.AuthService;
 import pl.xsware.infrastructure.common.SecurityConstants;
+import pl.xsware.infrastructure.security.auth.AuthUtils;
 import pl.xsware.infrastructure.security.auth.RefreshTokenCookie;
-import pl.xsware.infrastructure.web.dto.auth.AuthResponse;
-import pl.xsware.infrastructure.web.dto.auth.InfoResponse;
-import pl.xsware.infrastructure.web.dto.auth.LoginRequest;
-import pl.xsware.infrastructure.web.dto.auth.RegisterRequest;
+import pl.xsware.infrastructure.web.dto.auth.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -55,6 +53,15 @@ public class AuthController {
         return ResponseEntity.noContent()
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.clear().toString())
                 .build();
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Void> changePassword(
+            @Valid @RequestBody ChangePasswordRequest request
+    ) {
+        long userId = AuthUtils.currentUserId();
+        authService.changePassword(request, userId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/info")
