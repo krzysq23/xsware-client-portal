@@ -1,6 +1,5 @@
 package pl.xsware.infrastructure.config;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +12,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.xsware.infrastructure.security.jwt.JwtAuthenticationFilter;
-import pl.xsware.infrastructure.security.jwt.JwtProperties;
 import pl.xsware.infrastructure.security.jwt.JwtService;
 
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(JwtProperties.class)
 public class SecurityConfig {
 
     @Bean
